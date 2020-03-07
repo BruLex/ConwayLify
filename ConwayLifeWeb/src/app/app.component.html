@@ -1,0 +1,104 @@
+<div class="bitmap-show-container" *ngIf="true">
+  <div class="image-grid-container">
+    <div class="color-picker-container">
+      <div *ngFor="let accessType of selectTypeList" class="picker">
+        <div class="picker-element {{ accessType }}"
+             (click)="selectedSelectType = accessType">
+        </div>
+      </div>
+    </div>
+
+    <div class="selector-container">
+<!--      <div class="wrapper">-->
+<!--        <div class="grid-label col">&nbsp;</div>-->
+<!--        <div class="left-legend-container" [class.shade]="i != null && j != null" (mouseleave)="onMouseLeave()">-->
+<!--          <div *ngFor="let yLine of yLines; let x = index"-->
+<!--               class="grid-label row"-->
+<!--               [class.highlight]="x === i || i === null"-->
+<!--               (mouseenter)="onMouseEnterLabel(x, null)"-->
+<!--               (click)="onLabelClick()">-->
+<!--            {{yLine}}-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+      <div class="wrapper">
+<!--        <div class="top-legend-container" [class.shade]="i != null && j != null" (mouseleave)="onMouseLeave()">-->
+<!--          <div *ngFor="let xLine of xLines; let y = index"-->
+<!--               class="grid-label col"-->
+<!--               [class.highlight]="y === j || j === null"-->
+<!--               (mouseenter)="onMouseEnterLabel(null, y)"-->
+<!--               (click)="onLabelClick()">-->
+<!--            {{ xLine }}-->
+<!--          </div>-->
+<!--        </div>-->
+        <div class="grid"
+             (mouseleave)="onMouseLeave()"
+             (mousedown)="onMouseDown($event)"
+             (mouseup)="onMouseUp()">
+          <div *ngFor="let row of bitmapDataBehaviorSubject; let x = index" class="row">
+            <div *ngFor="let cell of row; let y = index"
+                 class="cell {{ cell | async }}"
+                 [class.highlight]="isCellHighlighted(x, y)"
+                 (mouseenter)="onMouseEnter(x, y)">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="control-panel">
+  <div class="controllers">
+    <button mat-button (click)="clearGrid()">Clear</button>
+    <button mat-button (click)="applySize()">Apply new size</button>
+    <mat-form-field class="example-full-width">
+      <input matInput
+             placeholder="Width"
+             type="number"
+             [ngModel]="xLength"
+             (ngModelChange)="sizeXY=$event">
+    </mat-form-field>
+<!--    <mat-form-field>-->
+<!--      <input matInput-->
+<!--             placeholder="Height"-->
+<!--             type="number"-->
+<!--             [(ngModel)]="yLength">-->
+<!--    </mat-form-field>-->
+  </div>
+  <div class="controllers">
+    <span>Iteration: {{iteration}}</span>
+    <button mat-button (click)="updateConwayGrid()">Update</button>
+    <mat-form-field class="example-full-width">
+      <input matInput
+             placeholder="Workers"
+             type="number"
+             [(ngModel)]="workers">
+    </mat-form-field>
+    <span>Over time: {{sumOfTime}}</span>
+
+    <mat-slide-toggle
+      [checked]="isStarted"
+      (change)="toggleActive()"
+      color="primary">
+      Enable simulation
+    </mat-slide-toggle>
+    <span>Avarage time: {{averageTime}}</span>
+    <!--    <mat-slide-toggle-->
+<!--      [checked]="isDelay"-->
+<!--      (change)="toggleDelay()"-->
+<!--      color="primary">-->
+<!--      Delay-->
+<!--    </mat-slide-toggle>-->
+<!--    <mat-slider thumbLabel tickInterval="auto"-->
+<!--                max="20"-->
+<!--                min="1"-->
+<!--                step="1"-->
+<!--                [(ngModel)]="speed">-->
+<!--    </mat-slider>-->
+  </div>
+  <div class="controllers">
+    <button mat-button (click)="randomFill(1)">Random fill</button>
+  </div>
+</div>
+

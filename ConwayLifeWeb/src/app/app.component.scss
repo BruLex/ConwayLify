@@ -1,0 +1,168 @@
+$cell-size: 8px;
+$picker-size: 24px;
+$shade-opacity: 0.38;
+$grid-length: 1px;
+$colors: (
+  selected: #ffec1c,
+  nonselected: #21ff0f
+);
+$border-colors: (
+  selected: #21ff0f,
+  nonselected: #ffec1c
+);
+
+@mixin set-colors($hover-selector: ':hover') {
+  @each $type, $color in $colors {
+    &.#{$type} {
+      background-color: $color;
+      border-color: $color;
+
+      &#{$hover-selector} {
+        border-color: map-get($border-colors, $type);
+      }
+    }
+  }
+}
+
+.bitmap-show-container {
+  display: flex;
+  & > div:last-child {
+    top: 18px;
+    position: relative;
+  }
+}
+
+.image-grid-container {
+  display: inline-block;
+  margin-top: 16px;
+  text-align: right;
+}
+
+.selector-container {
+  display: flex;
+  flex-direction: row;
+  cursor: default;
+
+  .grid-label {
+    //padding: $grid-length;
+    font-size: 12px;
+    user-select: none;
+    transition: color 0.3s ease-in-out;
+
+    &:hover, &.highlight {
+      color: rgba(255, 255, 255, 1);
+      font-weight: bold;
+    }
+    &.col {
+      width: $cell-size;
+      text-align: center;
+      padding-bottom: 5px;
+    }
+    &.row {
+      height: $cell-size;
+      text-align: right;
+      line-height: $cell-size;
+      padding-right: 7px;
+    }
+  }
+}
+
+.top-legend-container {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+
+  &:hover, &.shade {
+    color: rgba(0, 0, 0, $shade-opacity);
+  }
+}
+
+.left-legend-container {
+  display: flex;
+  flex-direction: column;
+  width: 50px;
+
+  &:hover, &.shade {
+    color: rgba(0, 0, 0, $shade-opacity);
+  }
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+
+  .row {
+    display: flex;
+    flex-direction: row;
+
+    .cell {
+      width: $cell-size;
+      height: $cell-size;
+      box-sizing: border-box;
+      //margin: $grid-length;
+      border: 1px solid;
+      border-radius: 0;
+      @include set-colors('.highlight');
+    }
+
+    .cell-without-color {
+      width: $cell-size;
+      height: $cell-size;
+      box-sizing: border-box;
+      margin: $grid-length;
+    }
+
+  }
+}
+.control-panel {
+  margin-top: 20px;
+  display: flex;
+  .controllers {
+    width: 180px;
+    * {
+      width: 100%;
+    }
+  }
+}
+
+
+.color-picker-container {
+  display: flex;
+  //flex-direction: column;
+  //justify-content: flex-end;
+
+  .picker {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    border: 1px solid;
+    border-radius: 12px;
+    transition: border-color 0.2s ease-in-out;
+    &:hover {
+      border: none;
+      border-radius: unset;
+    }
+    .picker-element {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+      width: $picker-size;
+      height: $picker-size;
+      border: 2px solid;
+      border-radius: 12px;
+      margin: 2px;
+      color: white;
+      transition: border-color 0.2s ease-in-out;
+      @include set-colors();
+      -webkit-user-select: none;   // Chrome/Safari/Opera
+      -moz-user-select: none;      // Firefox
+    }
+  }
+}
+
